@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
-import '../../store/recipe_store.dart';
+import '../../store/recipe/recipe_store.dart';
 import 'favorites_page.dart';
 import 'home_page.dart';
 import 'search_page.dart';
@@ -17,6 +18,34 @@ class AppNavigator extends StatefulWidget {
 
 class _AppNavigatorState extends State<AppNavigator> {
   int _selectedIndex = 0;
+  late RecipeStore _recipeStore;
+  late List<ReactionDisposer> _disposers;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    _recipeStore = Provider.of<RecipeStore>(context)..getRecipes();
+    _disposers = [
+      reaction(
+        (_) => _recipeStore.errorMessage,
+        // Run some logic with the content of the observed field
+        (String? message) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message!),
+            ),
+          );
+        },
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    _disposers.forEach((d) => d());
+    super.dispose();
+  }
 
   void _onTabTapped(int index) {
     setState(() {
@@ -24,11 +53,7 @@ class _AppNavigatorState extends State<AppNavigator> {
     });
   }
 
-  final List<Widget> _pages = [
-    Provider(create: (context) => RecipeStore(), child: HomePage()),
-    SearchPage(),
-    FavoritesPage()
-  ];
+  final List<Widget> _pages = [HomePage(), SearchPage(), FavoritesPage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -14,6 +14,7 @@ class PageViewDotIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: List.generate(
         dotCount,
         (index) {
@@ -22,7 +23,7 @@ class PageViewDotIndicator extends StatelessWidget {
             duration: const Duration(milliseconds: 300),
             margin: const EdgeInsets.all(3),
             decoration: BoxDecoration(
-                color: currentIndex == index ? Colors.amber[700] : Colors.grey,
+                color: currentIndex == index ? Colors.grey[800] : Colors.grey,
                 borderRadius: BorderRadius.circular(size / 2)),
             width: size,
             height: size,
