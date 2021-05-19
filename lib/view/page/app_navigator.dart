@@ -3,7 +3,6 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 import '../../store/recipe/recipe_store.dart';
-import 'favorites_page.dart';
 import 'home_page.dart';
 import 'search_page.dart';
 
@@ -23,13 +22,11 @@ class _AppNavigatorState extends State<AppNavigator> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _recipeStore = Provider.of<RecipeStore>(context)..getRecipes();
     _disposers = [
       reaction(
         (_) => _recipeStore.errorMessage,
-        // Run some logic with the content of the observed field
         (String? message) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -53,13 +50,11 @@ class _AppNavigatorState extends State<AppNavigator> {
     });
   }
 
-  final List<Widget> _pages = [HomePage(), SearchPage(), FavoritesPage()];
+  final List<Widget> _pages = [HomePage(), SearchPage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: _pages.elementAt(_selectedIndex),
-
-        //  floatingActionButtonLocation: FloatingActionButtonLocation.,
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.amber,
           elevation: 0,
@@ -75,10 +70,6 @@ class _AppNavigatorState extends State<AppNavigator> {
             BottomNavigationBarItem(
               icon: Icon(Icons.search),
               label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorites',
             ),
           ],
         ));
