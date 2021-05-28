@@ -71,151 +71,173 @@ class _MyPainterState extends State<MyPainter> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Polygons'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          //  height: 250,
-          width: double.maxFinite,
-          child: Stack(
-            alignment: AlignmentDirectional.topEnd,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(24),
-                child: AnimatedBuilder(
-                  animation: animation,
-                  builder: (context, snapshot) {
-                    return Container(
-                      //   width: animation2.value,
-                      //  height: animation2.value,
-                      decoration: BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius:
-                              BorderRadius.circular(2000 / animation2.value)),
-                      child: Padding(
-                        padding: EdgeInsets.all(24.0 * animation2.value / 200),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Row(
+    return SafeArea(
+      child: Scaffold(
+        // appBar: AppBar(
+        //   title: Text('Polygons'),
+        // ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            //  height: 250,
+            width: double.maxFinite,
+            child: Stack(
+              alignment: AlignmentDirectional.topEnd,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(24),
+                  child: AnimatedBuilder(
+                    animation: animation,
+                    builder: (context, snapshot) {
+                      return Opacity(
+                        opacity: animation2.value / 200,
+                        child: Container(
+                          //   width: animation2.value,
+                          //  height: animation2.value,
+                          decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(
+                                  2000 / animation2.value)),
+                          child: Container(
+                            padding:
+                                EdgeInsets.all(24.0 * animation2.value / 200),
+                            margin:
+                                EdgeInsets.all(5.0 * animation2.value / 200),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(
+                                    1000 / animation2.value)),
+                            child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(Icons.access_alarm,
-                                    size: 24 * animation2.value / 200),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "sdfsdfsfsdfdsf",
-                                    style: TextStyle(
-                                        fontSize: 16 * animation2.value / 200),
-                                  ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.access_alarm,
+                                        size: 24 * animation2.value / 200),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        "sdfsdfsfsdfdsf",
+                                        style: TextStyle(
+                                            fontSize:
+                                                16 * animation2.value / 200),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.access_alarm,
+                                        size: 24 * animation2.value / 200),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        "sdfsdfsfsdfdsf",
+                                        style: TextStyle(
+                                            fontSize:
+                                                16 * animation2.value / 200),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.access_alarm,
+                                        size: 24 * animation2.value / 200),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        "sdfsdfsfsdfdsf",
+                                        style: TextStyle(
+                                            fontSize:
+                                                16 * animation2.value / 200),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.access_alarm,
+                                        size: 24 * animation2.value / 200),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        "sdfsdfsfsdfdsf",
+                                        style: TextStyle(
+                                            fontSize:
+                                                16 * animation2.value / 200),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.access_alarm,
+                                        size: 24 * animation2.value / 200),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Text(
+                                        "sdfsdfsfsdfdsf",
+                                        style: TextStyle(
+                                            fontSize:
+                                                16 * animation2.value / 200),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.access_alarm,
-                                    size: 24 * animation2.value / 200),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "sdfsdfsfsdfdsf",
-                                    style: TextStyle(
-                                        fontSize: 16 * animation2.value / 200),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.access_alarm,
-                                    size: 24 * animation2.value / 200),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "sdfsdfsfsdfdsf",
-                                    style: TextStyle(
-                                        fontSize: 16 * animation2.value / 200),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.access_alarm,
-                                    size: 24 * animation2.value / 200),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "sdfsdfsfsdfdsf",
-                                    style: TextStyle(
-                                        fontSize: 16 * animation2.value / 200),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.access_alarm,
-                                    size: 24 * animation2.value / 200),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "sdfsdfsfsdfdsf",
-                                    style: TextStyle(
-                                        fontSize: 16 * animation2.value / 200),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    );
-                    // return CustomPaint(
-                    //   painter:
-                    //       ShapePainter(_sides, animation2.value, animation.value),
-                    //   child: Container(),
-                    // );
+                      );
+                      // return CustomPaint(
+                      //   painter:
+                      //       ShapePainter(_sides, animation2.value, animation.value),
+                      //   child: Container(),
+                      // );
+                    },
+                  ),
+                ),
+
+                FloatingActionButton(
+                  elevation: 0,
+                  focusElevation: 0,
+                  child: CircleAvatar(
+                    radius: 24,
+                  ),
+                  highlightElevation: 0,
+                  onPressed: () {
+                    if (animation2.isCompleted) {
+                      controller2.reverse();
+                    } else if (animation2.isDismissed) {
+                      controller2.forward();
+                    }
                   },
                 ),
-              ),
-              FloatingActionButton(
-                elevation: 0,
-                focusElevation: 0,
-                highlightElevation: 0,
-                onPressed: () {
-                  if (animation2.isCompleted) {
-                    controller2.reverse();
-                  } else if (animation2.isDismissed) {
-                    controller2.forward();
-                  }
-                },
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 24.0),
-              //   child: Text('Sides'),
-              // ),
-              // Slider(
-              //   value: _sides,
-              //   min: 3.0,
-              //   max: 10.0,
-              //   label: _sides.toInt().toString(),
-              //   divisions: 7,
-              //   onChanged: (value) {
-              //     setState(() {
-              //       _sides = value;
-              //     });
-              //   },
-              // ),
-            ],
+
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 24.0),
+                //   child: Text('Sides'),
+                // ),
+                // Slider(
+                //   value: _sides,
+                //   min: 3.0,
+                //   max: 10.0,
+                //   label: _sides.toInt().toString(),
+                //   divisions: 7,
+                //   onChanged: (value) {
+                //     setState(() {
+                //       _sides = value;
+                //     });
+                //   },
+                // ),
+              ],
+            ),
           ),
         ),
       ),
