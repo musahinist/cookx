@@ -1,3 +1,4 @@
+import 'package:cookx/view/sample/drop_down_menu.dart';
 import 'package:flutter/material.dart';
 
 import 'config/router/app_router.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      onGenerateRoute: AppRouter.generateRoute,
+      // onGenerateRoute: AppRouter.generateRoute,
+      home: DropDownMenu(),
     );
   }
 }
