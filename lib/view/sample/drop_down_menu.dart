@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
 
 class DropDownMenu extends StatelessWidget {
   @override
@@ -30,16 +31,16 @@ class _MyPainterState extends State<MyPainter> with TickerProviderStateMixin {
 
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
 
     controller2 = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
     );
 
-    Tween<double> _radiusTween = Tween(begin: 0.0, end: 200);
-    Tween<double> _rotationTween = Tween(begin: -math.pi, end: math.pi);
+    final Tween<double> _radiusTween = Tween(begin: 0.0, end: 200);
+    final Tween<double> _rotationTween = Tween(begin: -math.pi, end: math.pi);
 
     animation = _rotationTween.animate(controller)
       ..addListener(() {
@@ -73,6 +74,7 @@ class _MyPainterState extends State<MyPainter> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey[200],
         // appBar: AppBar(
         //   title: Text('Polygons'),
         // ),
@@ -85,113 +87,88 @@ class _MyPainterState extends State<MyPainter> with TickerProviderStateMixin {
               alignment: AlignmentDirectional.topEnd,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(24),
+                  padding: const EdgeInsets.only(top: 24.0),
+                  child: Opacity(
+                    opacity:
+                        animation2.value >= 150 ? animation2.value / 200 : 0,
+                    child: ClipPath(
+                      clipper: CustomClipPath(),
+                      child:
+                          Container(width: 80, height: 48, color: Colors.white),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 48,
+                  ),
                   child: AnimatedBuilder(
                     animation: animation,
                     builder: (context, snapshot) {
                       return Opacity(
-                        opacity: animation2.value / 200,
+                        opacity: animation2.value >= 150
+                            ? animation2.value / 200
+                            : 0,
                         child: Container(
-                          //   width: animation2.value,
-                          //  height: animation2.value,
+                          padding:
+                              EdgeInsets.all(12.0 * animation2.value / 200),
+                          // margin: EdgeInsets.all(animation2.value / 200),
                           decoration: BoxDecoration(
-                              color: Colors.amber,
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(
-                                  2000 / animation2.value)),
-                          child: Container(
-                            padding:
-                                EdgeInsets.all(24.0 * animation2.value / 200),
-                            margin:
-                                EdgeInsets.all(5.0 * animation2.value / 200),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(
-                                    1000 / animation2.value)),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.access_alarm,
-                                        size: 24 * animation2.value / 200),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Text(
-                                        "sdfsdfsfsdfdsf",
-                                        style: TextStyle(
-                                            fontSize:
-                                                16 * animation2.value / 200),
-                                      ),
+                                  2400 / animation2.value)),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.access_alarm,
+                                      size: 24 * animation2.value / 200),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Text(
+                                      'sdfsdfsfsdfdsf',
+                                      style: TextStyle(
+                                          fontSize:
+                                              16 * animation2.value / 200),
                                     ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.access_alarm,
-                                        size: 24 * animation2.value / 200),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Text(
-                                        "sdfsdfsfsdfdsf",
-                                        style: TextStyle(
-                                            fontSize:
-                                                16 * animation2.value / 200),
-                                      ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.access_alarm,
+                                      size: 24 * animation2.value / 200),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Text(
+                                      'sdfsdfsfsdfdsf',
+                                      style: TextStyle(
+                                          fontSize:
+                                              16 * animation2.value / 200),
                                     ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.access_alarm,
-                                        size: 24 * animation2.value / 200),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Text(
-                                        "sdfsdfsfsdfdsf",
-                                        style: TextStyle(
-                                            fontSize:
-                                                16 * animation2.value / 200),
-                                      ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.access_alarm,
+                                      size: 24 * animation2.value / 200),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Text(
+                                      'sdfsdfsfsdfdsf',
+                                      style: TextStyle(
+                                          fontSize:
+                                              16 * animation2.value / 200),
                                     ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.access_alarm,
-                                        size: 24 * animation2.value / 200),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Text(
-                                        "sdfsdfsfsdfdsf",
-                                        style: TextStyle(
-                                            fontSize:
-                                                16 * animation2.value / 200),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.access_alarm,
-                                        size: 24 * animation2.value / 200),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Text(
-                                        "sdfsdfsfsdfdsf",
-                                        style: TextStyle(
-                                            fontSize:
-                                                16 * animation2.value / 200),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       );
@@ -205,11 +182,9 @@ class _MyPainterState extends State<MyPainter> with TickerProviderStateMixin {
                 ),
 
                 FloatingActionButton(
+                  backgroundColor: Colors.white,
                   elevation: 0,
                   focusElevation: 0,
-                  child: CircleAvatar(
-                    radius: 24,
-                  ),
                   highlightElevation: 0,
                   onPressed: () {
                     if (animation2.isCompleted) {
@@ -218,6 +193,11 @@ class _MyPainterState extends State<MyPainter> with TickerProviderStateMixin {
                       controller2.forward();
                     }
                   },
+                  child: const CircleAvatar(
+                    radius: 24,
+                    backgroundColor: Colors.purple,
+                    child: CircleAvatar(radius: 22),
+                  ),
                 ),
 
                 // Padding(
@@ -245,6 +225,30 @@ class _MyPainterState extends State<MyPainter> with TickerProviderStateMixin {
   }
 }
 
+class CustomClipPath extends CustomClipper<Path> {
+  var radius = 24.0;
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.moveTo(radius, 0.0);
+    path.arcToPoint(Offset(0.0, radius),
+        clockwise: true, radius: Radius.circular(radius));
+    path.lineTo(0.0, size.height);
+    // path.arcToPoint(Offset(radius, size.height),
+    //     clockwise: true, radius: Radius.circular(radius));
+    path.lineTo(size.width, size.height);
+    // path.arcToPoint(Offset(size.width, size.height - radius),
+    //     clockwise: true, radius: Radius.circular(radius));
+    path.lineTo(size.width, 0);
+    // path.arcToPoint(Offset(size.width - radius, 0.0),
+    //     clockwise: true, radius: Radius.circular(radius));
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
 // FOR PAINTING POLYGONS
 class ShapePainter extends CustomPainter {
   final double sides;
@@ -254,18 +258,18 @@ class ShapePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
+    final paint = Paint()
       ..color = Colors.teal
       ..strokeWidth = 3
       ..style = PaintingStyle.fill
       ..strokeCap = StrokeCap.round;
 
-    var path = Path();
+    final path = Path();
 
-    var angle = (math.pi * 2) / sides;
+    final angle = (math.pi * 2) / sides;
 
-    Offset center = Offset(size.width / 2, size.height / 2);
-    Offset startPoint =
+    final Offset center = Offset(size.width / 2, size.height / 2);
+    final Offset startPoint =
         Offset(radius * math.cos(radians), radius * math.sin(radians));
 
     path.addOval(Rect.fromCircle(center: Offset(224, 200), radius: 24));
