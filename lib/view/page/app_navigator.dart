@@ -1,3 +1,4 @@
+import 'package:cookx/config/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -6,17 +7,101 @@ import '../../store/recipe/recipe_store.dart';
 import 'home_page.dart';
 import 'search_page.dart';
 
+class Nav extends StatefulWidget {
+  static const String $PATH = '/';
+  const Nav({Key? key}) : super(key: key);
+
+  @override
+  _NavState createState() => _NavState();
+}
+
+class _NavState extends State<Nav> {
+  void _onTabTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  final _navigatorKey = GlobalKey<NavigatorState>();
+  int _selectedIndex = 0;
+  final List _pages = [HomePage.$PATH, SearchPage.$PATH];
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        if (_navigatorKey.currentState!.canPop()) {
+          _navigatorKey.currentState!.pop();
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        body: Navigator(
+          key: _navigatorKey,
+
+          initialRoute: HomePage.$PATH, // _pages.elementAt(_selectedIndex),
+          onGenerateRoute: AppRouter.generateRoute,
+        ),
+        appBar: AppBar(),
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+            color: Colors.red,
+            height: kToolbarHeight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.ac_unit),
+                  onPressed: () {
+                    // _selectedIndex = 0;
+                    // setState(() {});
+                    // print("home");
+                    _navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                        HomePage.$PATH, (route) => false);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.ac_unit),
+                  onPressed: () {
+                    // _selectedIndex = 1;
+                    // print("serach");
+                    // setState(() {});
+                    _navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                        SearchPage.$PATH, (route) => false);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.ac_unit),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.ac_unit),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.ac_unit),
+                  onPressed: () {},
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class AppNavigator extends StatefulWidget {
+  static const String $PATH = '/AppNav';
   const AppNavigator({
     Key? key,
   }) : super(key: key);
-  static const String $PATH = '/';
+
   @override
   _AppNavigatorState createState() => _AppNavigatorState();
 }
 
 class _AppNavigatorState extends State<AppNavigator> {
-  int _selectedIndex = 0;
   late RecipeStore _recipeStore;
   late List<ReactionDisposer> _disposers;
 
@@ -44,34 +129,20 @@ class _AppNavigatorState extends State<AppNavigator> {
     super.dispose();
   }
 
-  void _onTabTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  final List<Widget> _pages = [HomePage(), SearchPage()];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: _pages.elementAt(_selectedIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.amber,
-          elevation: 0,
-          selectedItemColor: Colors.white,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedIndex,
-          onTap: _onTabTapped,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.restaurant),
-              label: 'Main',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
-            ),
-          ],
-        ));
+    // TODO: implement build
+    return HomePage();
+  }
+}
+
+class Deneme1 extends StatelessWidget {
+  const Deneme1({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("sdfsdf"),
+    );
   }
 }

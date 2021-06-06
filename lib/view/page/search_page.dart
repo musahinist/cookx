@@ -9,6 +9,7 @@ import '../widget/search_appbar_widget.dart';
 import 'recipe_detail.dart';
 
 class SearchPage extends StatefulWidget {
+  static const String $PATH = 'SearchPage';
   @override
   _SearchPageState createState() => _SearchPageState();
 }

@@ -9,6 +9,7 @@ import '../widget/slider_widget.dart';
 import 'recipe_detail.dart';
 
 class HomePage extends StatefulWidget {
+  static const String $PATH = '/HomePage';
   @override
   _HomePageState createState() => _HomePageState();
 }

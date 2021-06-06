@@ -2,21 +2,13 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
-class DropDownMenu extends StatelessWidget {
+class DropDownMenu extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: MyPainter(),
-    );
-  }
+  _DropDownMenuState createState() => _DropDownMenuState();
 }
 
-class MyPainter extends StatefulWidget {
-  @override
-  _MyPainterState createState() => _MyPainterState();
-}
-
-class _MyPainterState extends State<MyPainter> with TickerProviderStateMixin {
+class _DropDownMenuState extends State<DropDownMenu>
+    with TickerProviderStateMixin {
   var _sides = 3.0;
 
   late Animation<double> animation;
@@ -72,154 +64,135 @@ class _MyPainterState extends State<MyPainter> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[200],
-        // appBar: AppBar(
-        //   title: Text('Polygons'),
-        // ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            //  height: 250,
-            width: double.maxFinite,
-            child: Stack(
-              alignment: AlignmentDirectional.topEnd,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 24.0),
-                  child: Opacity(
-                    opacity:
-                        animation2.value >= 150 ? animation2.value / 200 : 0,
-                    child: ClipPath(
-                      clipper: CustomClipPath(),
-                      child:
-                          Container(width: 80, height: 48, color: Colors.white),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 48,
-                  ),
-                  child: AnimatedBuilder(
-                    animation: animation,
-                    builder: (context, snapshot) {
-                      return Opacity(
-                        opacity: animation2.value >= 150
-                            ? animation2.value / 200
-                            : 0,
-                        child: Container(
-                          padding:
-                              EdgeInsets.all(12.0 * animation2.value / 200),
-                          // margin: EdgeInsets.all(animation2.value / 200),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(
-                                  2400 / animation2.value)),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.access_alarm,
-                                      size: 24 * animation2.value / 200),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Text(
-                                      'sdfsdfsfsdfdsf',
-                                      style: TextStyle(
-                                          fontSize:
-                                              16 * animation2.value / 200),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.access_alarm,
-                                      size: 24 * animation2.value / 200),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Text(
-                                      'sdfsdfsfsdfdsf',
-                                      style: TextStyle(
-                                          fontSize:
-                                              16 * animation2.value / 200),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.access_alarm,
-                                      size: 24 * animation2.value / 200),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Text(
-                                      'sdfsdfsfsdfdsf',
-                                      style: TextStyle(
-                                          fontSize:
-                                              16 * animation2.value / 200),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                      // return CustomPaint(
-                      //   painter:
-                      //       ShapePainter(_sides, animation2.value, animation.value),
-                      //   child: Container(),
-                      // );
-                    },
-                  ),
-                ),
+    return SizedBox(
+      //  height: 250,
 
-                FloatingActionButton(
-                  backgroundColor: Colors.white,
-                  elevation: 0,
-                  focusElevation: 0,
-                  highlightElevation: 0,
-                  onPressed: () {
-                    if (animation2.isCompleted) {
-                      controller2.reverse();
-                    } else if (animation2.isDismissed) {
-                      controller2.forward();
-                    }
-                  },
-                  child: const CircleAvatar(
-                    radius: 24,
-                    backgroundColor: Colors.purple,
-                    child: CircleAvatar(radius: 22),
-                  ),
-                ),
-
-                // Padding(
-                //   padding: const EdgeInsets.only(left: 24.0),
-                //   child: Text('Sides'),
-                // ),
-                // Slider(
-                //   value: _sides,
-                //   min: 3.0,
-                //   max: 10.0,
-                //   label: _sides.toInt().toString(),
-                //   divisions: 7,
-                //   onChanged: (value) {
-                //     setState(() {
-                //       _sides = value;
-                //     });
-                //   },
-                // ),
-              ],
+      child: Stack(
+        alignment: AlignmentDirectional.topEnd,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 24.0),
+            child: Opacity(
+              opacity: animation2.value >= 150 ? animation2.value / 200 : 0,
+              child: ClipPath(
+                clipper: CustomClipPath(),
+                child: Container(width: 80, height: 48, color: Colors.white),
+              ),
             ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 48,
+            ),
+            child: AnimatedBuilder(
+              animation: animation,
+              builder: (context, snapshot) {
+                return Opacity(
+                  opacity: animation2.value >= 150 ? animation2.value / 200 : 0,
+                  child: Container(
+                    padding: EdgeInsets.all(12.0 * animation2.value / 200),
+                    // margin: EdgeInsets.all(animation2.value / 200),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.circular(2400 / animation2.value)),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.access_alarm,
+                                size: 24 * animation2.value / 200),
+                            InkWell(
+                              onTap: () {},
+                              child: Text(
+                                'sdfsdfsfsdfdsf',
+                                style: TextStyle(
+                                    fontSize: 16 * animation2.value / 200),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.access_alarm,
+                                size: 24 * animation2.value / 200),
+                            InkWell(
+                              onTap: () {},
+                              child: Text(
+                                'sdfsdfsfsdfdsf',
+                                style: TextStyle(
+                                    fontSize: 16 * animation2.value / 200),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.access_alarm,
+                                size: 24 * animation2.value / 200),
+                            InkWell(
+                              onTap: () {},
+                              child: Text(
+                                'sdfsdfsfsdfdsf',
+                                style: TextStyle(
+                                    fontSize: 16 * animation2.value / 200),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+                // return CustomPaint(
+                //   painter:
+                //       ShapePainter(_sides, animation2.value, animation.value),
+                //   child: Container(),
+                // );
+              },
+            ),
+          ),
+
+          FloatingActionButton(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            focusElevation: 0,
+            highlightElevation: 0,
+            onPressed: () {
+              if (animation2.isCompleted) {
+                controller2.reverse();
+              } else if (animation2.isDismissed) {
+                controller2.forward();
+              }
+            },
+            child: const CircleAvatar(
+              radius: 24,
+              backgroundColor: Colors.purple,
+              child: CircleAvatar(radius: 22),
+            ),
+          ),
+
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 24.0),
+          //   child: Text('Sides'),
+          // ),
+          // Slider(
+          //   value: _sides,
+          //   min: 3.0,
+          //   max: 10.0,
+          //   label: _sides.toInt().toString(),
+          //   divisions: 7,
+          //   onChanged: (value) {
+          //     setState(() {
+          //       _sides = value;
+          //     });
+          //   },
+          // ),
+        ],
       ),
     );
   }
