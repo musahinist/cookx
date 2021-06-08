@@ -37,7 +37,7 @@ class _NavState extends State<Nav> {
       },
       child: Scaffold(
         body: Navigator(
-          key: _navigatorKey,
+          key: _navigatorKey, reportsRouteUpdateToEngine: true,
 
           initialRoute: HomePage.$PATH, // _pages.elementAt(_selectedIndex),
           onGenerateRoute: AppRouter.generateRoute,
