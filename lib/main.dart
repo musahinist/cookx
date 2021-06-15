@@ -1,5 +1,6 @@
 import 'package:cookx/view/page/curved_line_chart.dart';
 import 'package:cookx/view/page/fl_chart.dart';
+import 'package:cookx/view/page/image_sticker.dart';
 import 'package:flutter/material.dart';
 
 import 'util/log/log.dart';
@@ -23,9 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       //  onGenerateRoute: AppRouter.generateRoute,
       home: Scaffold(
-        body: Center(
-          child: LineChartSample1(),
-        ),
+        body: ImageSticker(),
       ),
     );
   }

@@ -8,23 +8,25 @@ import 'home_page.dart';
 import 'search_page.dart';
 
 class Nav extends StatefulWidget {
-  static const String $PATH = '/';
   const Nav({Key? key}) : super(key: key);
+
+  static const String $PATH = '/';
 
   @override
   _NavState createState() => _NavState();
 }
 
 class _NavState extends State<Nav> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
+  final List _pages = [HomePage.$PATH, SearchPage.$PATH];
+  int _selectedIndex = 0;
+
   void _onTabTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
 
-  final _navigatorKey = GlobalKey<NavigatorState>();
-  int _selectedIndex = 0;
-  final List _pages = [HomePage.$PATH, SearchPage.$PATH];
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -92,18 +94,19 @@ class _NavState extends State<Nav> {
 }
 
 class AppNavigator extends StatefulWidget {
-  static const String $PATH = '/AppNav';
   const AppNavigator({
     Key? key,
   }) : super(key: key);
+
+  static const String $PATH = '/AppNav';
 
   @override
   _AppNavigatorState createState() => _AppNavigatorState();
 }
 
 class _AppNavigatorState extends State<AppNavigator> {
-  late RecipeStore _recipeStore;
   late List<ReactionDisposer> _disposers;
+  late RecipeStore _recipeStore;
 
   @override
   void didChangeDependencies() {

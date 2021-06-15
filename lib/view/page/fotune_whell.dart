@@ -13,14 +13,21 @@ class FortuneWheel extends StatefulWidget {
 class _FortuneWheelState extends State<FortuneWheel>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
-  ScrollController ctrl = ScrollController();
-  late Animation<double> rotate;
-  final Duration rotationDuration = const Duration(seconds: 7);
-  Curve rotateCurve = Curves.bounceOut;
-  final Tween<double> _rotationTween = Tween(begin: 0, end: 1);
-  int rotateMargin = 0;
-  double radius = 100;
   int count = 8;
+  ScrollController ctrl = ScrollController();
+  double radius = 100;
+  late Animation<double> rotate;
+  Curve rotateCurve = Curves.bounceOut;
+  int rotateMargin = 0;
+  final Duration rotationDuration = const Duration(seconds: 7);
+
+  final Tween<double> _rotationTween = Tween(begin: 0, end: 1);
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -45,12 +52,6 @@ class _FortuneWheelState extends State<FortuneWheel>
           //  animationController.reset();
         }
       });
-  }
-
-  @override
-  void dispose() {
-    animationController.dispose();
-    super.dispose();
   }
 
   @override
@@ -172,10 +173,10 @@ class Profile extends StatelessWidget {
       this.magnify = 1})
       : super(key: key);
 
-  final Animation<double> rotate;
-  final double rotateMargin;
   final int index;
   final double magnify;
+  final Animation<double> rotate;
+  final double rotateMargin;
 
   @override
   Widget build(BuildContext context) {

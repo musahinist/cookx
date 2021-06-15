@@ -10,13 +10,16 @@ import 'recipe_detail.dart';
 
 class SearchPage extends StatefulWidget {
   static const String $PATH = 'SearchPage';
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  late RecipeStore _recipeStore;
   TextEditingController searchController = TextEditingController();
+
+  late RecipeStore _recipeStore;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

@@ -63,6 +63,10 @@ flutter:
     - asset/animation/
     - asset/font/
     - asset/lang/
+    # assets-generator-begin
+    # asset/image/*
+    - asset/image/asd.svg
+    # assets-generator-end
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
@@ -86,3 +90,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_assets:
+  assets_path: asset/image/
+  output_path: lib/common/assets/
+  package: module_home

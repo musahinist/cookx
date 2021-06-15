@@ -15,51 +15,6 @@ class LineChartSample1State extends State<LineChartSample1> {
     isShowingMainData = true;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.6,
-      child: Container(
-        margin: EdgeInsets.all(12),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(18)),
-          gradient: LinearGradient(
-            colors: [
-              Colors.purple,
-              Colors.purpleAccent,
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
-        ),
-        child: Stack(
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const SizedBox(
-                  height: 37,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0, left: 6.0),
-                    child: LineChart(
-                      sampleData1(),
-                      swapAnimationDuration: const Duration(milliseconds: 250),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   LineChartData sampleData1() {
     return LineChartData(
       lineTouchData: LineTouchData(
@@ -177,5 +132,50 @@ class LineChartSample1State extends State<LineChartSample1> {
     return [
       lineChartBarData2,
     ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.6,
+      child: Container(
+        margin: EdgeInsets.all(12),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(18)),
+          gradient: LinearGradient(
+            colors: [
+              Colors.purple,
+              Colors.purpleAccent,
+            ],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+          ),
+        ),
+        child: Stack(
+          children: <Widget>[
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                const SizedBox(
+                  height: 37,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16.0, left: 6.0),
+                    child: LineChart(
+                      sampleData1(),
+                      swapAnimationDuration: const Duration(milliseconds: 250),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -96,6 +96,21 @@ class LineChart extends StatelessWidget {
     this.backgroundColor,
   }) : super(key: key);
 
+  ///average Lable
+  final bool averageLable;
+
+  ///average Line
+  final bool averageLine;
+
+  ///backgroudColor
+  final Color? backgroundColor;
+
+  /// How aggressively the sparkline should apply cubic beziers to smooth
+  /// the curves. A good value is usually between 0.1 and 0.3.
+  ///
+  /// Defaults to 0.15.
+  final double cubicSmoothingFactor;
+
   /// List of values to be represented by the sparkline.
   ///
   /// Each data entry represents an individual point on the chart, with a path
@@ -104,62 +119,27 @@ class LineChart extends StatelessWidget {
   /// The values are normalized to fit within the bounds of the chart.
   final List<double> data;
 
-  /// The width of the sparkline.
-  ///
-  /// Defaults to 2.0.
-  final double lineWidth;
+  /// Enable or disable grid lines
+  final bool enableGridLines;
 
-  /// The color of the sparkline.
-  ///
-  /// Defaults to Colors.lightBlue.
-  ///
-  /// This is ignored if [lineGradient] is non-null.
-  final Color lineColor;
+  /// Define if graph should have threshold
+  final bool enableThreshold;
 
-  /// A gradient to use when coloring the sparkline.
+  /// The height to use when the sparkline is in a situation with an unbounded
+  /// height.
   ///
-  /// If this is specified, [lineColor] has no effect.
-  final Gradient? lineGradient;
+  /// See also:
+  ///
+  ///  * [fallbackWidth], the same but horizontally.
+  final double fallbackHeight;
 
-  /// Determines how individual data points should be drawn over the sparkline.
+  /// The width to use when the sparkline is in a situation with an unbounded
+  /// width.
   ///
-  /// Defaults to [PointsMode.none].
-  final PointsMode pointsMode;
-
-  /// The size to use when drawing individual data points over the sparkline.
+  /// See also:
   ///
-  /// Defaults to 4.0.
-  final double pointSize;
-
-  /// The color used when drawing individual data points over the sparkline.
-  ///
-  /// Defaults to Colors.lightBlue[800].
-  final Color pointColor;
-
-  /// Determines if the sparkline path should have sharp corners where two
-  /// segments intersect.
-  ///
-  /// Defaults to false.
-  final bool sharpCorners;
-
-  /// Determines if the sparkline path should use cubic beziers to smooth
-  /// the curve when drawing. Read more about the algorithm used, here:
-  ///
-  /// https://medium.com/@francoisromain/smooth-a-svg-path-with-cubic-bezier-curves-e37b49d46c74
-  ///
-  /// Defaults to false.
-  final bool useCubicSmoothing;
-
-  /// How aggressively the sparkline should apply cubic beziers to smooth
-  /// the curves. A good value is usually between 0.1 and 0.3.
-  ///
-  /// Defaults to 0.15.
-  final double cubicSmoothingFactor;
-
-  /// Determines the area that should be filled with [fillColor].
-  ///
-  /// Defaults to [FillMode.none].
-  final FillMode fillMode;
+  ///  * [fallbackHeight], the same but vertically.
+  final double fallbackWidth;
 
   /// The fill color used in the chart, as determined by [fillMode].
   ///
@@ -173,31 +153,21 @@ class LineChart extends StatelessWidget {
   /// If this is specified, [fillColor] has no effect.
   final Gradient? fillGradient;
 
-  /// The width to use when the sparkline is in a situation with an unbounded
-  /// width.
+  /// Determines the area that should be filled with [fillColor].
   ///
-  /// See also:
-  ///
-  ///  * [fallbackHeight], the same but vertically.
-  final double fallbackWidth;
-
-  /// The height to use when the sparkline is in a situation with an unbounded
-  /// height.
-  ///
-  /// See also:
-  ///
-  ///  * [fallbackWidth], the same but horizontally.
-  final double fallbackHeight;
-
-  /// Enable or disable grid lines
-  final bool enableGridLines;
-
-  /// Color of grid lines and label text
-  final Color gridLineColor;
-  final Color gridLineLabelColor;
+  /// Defaults to [FillMode.none].
+  final FillMode fillMode;
 
   /// Number of grid lines
   final int gridLineAmount;
+
+  /// Color of grid lines and label text
+  final Color gridLineColor;
+
+  final Color gridLineLabelColor;
+
+  /// Digit precision of grid line labels
+  final int gridLineLabelPrecision;
 
   /// Width of grid lines
   final double gridLineWidth;
@@ -206,14 +176,25 @@ class LineChart extends StatelessWidget {
   // final String labelPrefix;
   final String gridLinelabelPrefix;
 
-  /// Digit precision of grid line labels
-  final int gridLineLabelPrecision;
+  /// kLine= ['max', 'min', 'first', 'last']
+  final List? kLine;
 
-  /// Define if graph should have threshold
-  final bool enableThreshold;
+  /// The color of the sparkline.
+  ///
+  /// Defaults to Colors.lightBlue.
+  ///
+  /// This is ignored if [lineGradient] is non-null.
+  final Color lineColor;
 
-  /// size of default threshold (in Percent) 0.0 ~ 1.0
-  final double thresholdSize;
+  /// A gradient to use when coloring the sparkline.
+  ///
+  /// If this is specified, [lineColor] has no effect.
+  final Gradient? lineGradient;
+
+  /// The width of the sparkline.
+  ///
+  /// Defaults to 2.0.
+  final double lineWidth;
 
   /// The maximum value for the rendering box. Will default to the largest
   /// value in [data].
@@ -223,17 +204,37 @@ class LineChart extends StatelessWidget {
   /// value in [data].
   final double? min;
 
-  /// kLine= ['max', 'min', 'first', 'last']
-  final List? kLine;
+  /// The color used when drawing individual data points over the sparkline.
+  ///
+  /// Defaults to Colors.lightBlue[800].
+  final Color pointColor;
 
-  ///average Line
-  final bool averageLine;
+  /// The size to use when drawing individual data points over the sparkline.
+  ///
+  /// Defaults to 4.0.
+  final double pointSize;
 
-  ///average Lable
-  final bool averageLable;
+  /// Determines how individual data points should be drawn over the sparkline.
+  ///
+  /// Defaults to [PointsMode.none].
+  final PointsMode pointsMode;
 
-  ///backgroudColor
-  final Color? backgroundColor;
+  /// Determines if the sparkline path should have sharp corners where two
+  /// segments intersect.
+  ///
+  /// Defaults to false.
+  final bool sharpCorners;
+
+  /// size of default threshold (in Percent) 0.0 ~ 1.0
+  final double thresholdSize;
+
+  /// Determines if the sparkline path should use cubic beziers to smooth
+  /// the curve when drawing. Read more about the algorithm used, here:
+  ///
+  /// https://medium.com/@francoisromain/smooth-a-svg-path-with-cubic-bezier-curves-e37b49d46c74
+  ///
+  /// Defaults to false.
+  final bool useCubicSmoothing;
 
   @override
   Widget build(BuildContext context) {
@@ -314,67 +315,36 @@ class _LineChartPainter extends CustomPainter {
             ? min
             : (dataPoints.length > 0 ? dataPoints.reduce(math.min) : 0.0);
 
-  List<double> dataPoints;
-
-  final double lineWidth;
-  final Color lineColor;
-  final Gradient? lineGradient;
-
-  final bool sharpCorners;
-  final bool useCubicSmoothing;
+  final bool averageLable;
+  final bool averageLine;
+  final Color? backgroundColor;
   final double cubicSmoothingFactor;
-
-  final FillMode fillMode;
+  List<double> dataPoints;
+  final bool enableGridLines;
+  final bool enableThreshold;
   final Color fillColor;
   final Gradient? fillGradient;
-
-  final PointsMode pointsMode;
-  final double pointSize;
+  final FillMode fillMode;
+  final int gridLineAmount;
+  final Color gridLineColor;
+  final Color gridLineLabelColor;
+  final int gridLineLabelPrecision;
+  List<TextPainter> gridLineTextPainters = [];
+  final double gridLineWidth;
+  final String gridLinelabelPrefix;
+  final List? kLine;
+  final Color lineColor;
+  final Gradient? lineGradient;
+  final double lineWidth;
   final Color pointColor;
-
-  final bool enableThreshold;
+  final double pointSize;
+  final PointsMode pointsMode;
+  final bool sharpCorners;
   final double thresholdSize;
+  final bool useCubicSmoothing;
 
   final double _max;
   final double _min;
-
-  final bool enableGridLines;
-  final Color gridLineColor;
-  final int gridLineAmount;
-  final double gridLineWidth;
-  final Color gridLineLabelColor;
-  final String gridLinelabelPrefix;
-  final int gridLineLabelPrecision;
-  final bool averageLine;
-  final bool averageLable;
-  final List? kLine;
-  final Color? backgroundColor;
-
-  List<TextPainter> gridLineTextPainters = [];
-
-  update() {
-    if (enableGridLines) {
-      double gridLineValue;
-      for (int i = 0; i < gridLineAmount; i++) {
-        // Label grid lines
-        gridLineValue = _max - (((_max - _min) / (gridLineAmount - 1)) * i);
-
-        String gridLineText =
-            gridLineValue.toStringAsPrecision(gridLineLabelPrecision);
-
-        gridLineTextPainters.add(TextPainter(
-            text: TextSpan(
-                // text: labelPrefix + gridLineText,
-                text: gridLineText + " " + gridLinelabelPrefix,
-                style: TextStyle(
-                    color: gridLineLabelColor,
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.bold)),
-            textDirection: TextDirection.ltr));
-        gridLineTextPainters[i].layout();
-      }
-    }
-  }
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -711,5 +681,29 @@ class _LineChartPainter extends CustomPainter {
         kLine != old.kLine ||
         backgroundColor != old.backgroundColor ||
         useCubicSmoothing != old.useCubicSmoothing;
+  }
+
+  update() {
+    if (enableGridLines) {
+      double gridLineValue;
+      for (int i = 0; i < gridLineAmount; i++) {
+        // Label grid lines
+        gridLineValue = _max - (((_max - _min) / (gridLineAmount - 1)) * i);
+
+        String gridLineText =
+            gridLineValue.toStringAsPrecision(gridLineLabelPrecision);
+
+        gridLineTextPainters.add(TextPainter(
+            text: TextSpan(
+                // text: labelPrefix + gridLineText,
+                text: gridLineText + " " + gridLinelabelPrefix,
+                style: TextStyle(
+                    color: gridLineLabelColor,
+                    fontSize: 10.0,
+                    fontWeight: FontWeight.bold)),
+            textDirection: TextDirection.ltr));
+        gridLineTextPainters[i].layout();
+      }
+    }
   }
 }
