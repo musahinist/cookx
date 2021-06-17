@@ -1,3 +1,4 @@
+import 'package:cookx/view/page/app_navigator.dart';
 import 'package:cookx/view/page/curved_line_chart.dart';
 import 'package:cookx/view/page/fl_chart.dart';
 import 'package:cookx/view/page/image_sticker.dart';
@@ -23,9 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.amber,
       ),
       //  onGenerateRoute: AppRouter.generateRoute,
-      home: Scaffold(
-        body: ImageSticker(),
-      ),
+      home: Nav(),
     );
   }
 }

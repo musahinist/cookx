@@ -39,6 +39,36 @@ mixin _$RecipeStore on _RecipeStoreBase, Store {
     });
   }
 
+  final _$recipeDetailAtom = Atom(name: '_RecipeStoreBase.recipeDetail');
+
+  @override
+  RecipeDetail? get recipeDetail {
+    _$recipeDetailAtom.reportRead();
+    return super.recipeDetail;
+  }
+
+  @override
+  set recipeDetail(RecipeDetail? value) {
+    _$recipeDetailAtom.reportWrite(value, super.recipeDetail, () {
+      super.recipeDetail = value;
+    });
+  }
+
+  final _$filteredRecipeAtom = Atom(name: '_RecipeStoreBase.filteredRecipe');
+
+  @override
+  List<FilteredRecipe>? get filteredRecipe {
+    _$filteredRecipeAtom.reportRead();
+    return super.filteredRecipe;
+  }
+
+  @override
+  set filteredRecipe(List<FilteredRecipe>? value) {
+    _$filteredRecipeAtom.reportWrite(value, super.filteredRecipe, () {
+      super.filteredRecipe = value;
+    });
+  }
+
   final _$stateAtom = Atom(name: '_RecipeStoreBase.state');
 
   @override
@@ -76,11 +106,30 @@ mixin _$RecipeStore on _RecipeStoreBase, Store {
     return _$getRecipesAsyncAction.run(() => super.getRecipes());
   }
 
+  final _$getRecipeDetailAsyncAction =
+      AsyncAction('_RecipeStoreBase.getRecipeDetail');
+
+  @override
+  Future<dynamic> getRecipeDetail(int id) {
+    return _$getRecipeDetailAsyncAction.run(() => super.getRecipeDetail(id));
+  }
+
+  final _$getFilterdRecipeAsyncAction =
+      AsyncAction('_RecipeStoreBase.getFilterdRecipe');
+
+  @override
+  Future<dynamic> getFilterdRecipe(String filter) {
+    return _$getFilterdRecipeAsyncAction
+        .run(() => super.getFilterdRecipe(filter));
+  }
+
   @override
   String toString() {
     return '''
 recipesFuture: ${recipesFuture},
 recipes: ${recipes},
+recipeDetail: ${recipeDetail},
+filteredRecipe: ${filteredRecipe},
 state: ${state},
 errorMessage: ${errorMessage}
     ''';
