@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.amber,
       ),
       //  onGenerateRoute: AppRouter.generateRoute,
-      home: Nav(),
+      home: Scaffold(body: ImageSticker()),
     );
   }
 }
