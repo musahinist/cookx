@@ -11,14 +11,29 @@ class ImageSticker extends StatefulWidget {
   _ImageStickerState createState() => _ImageStickerState();
 }
 
-class _ImageStickerState extends State<ImageSticker> {
-  void remove(int index) {
-    stickers.insert(index, SizedBox.shrink());
-    setState(() {});
+class _ImageStickerState extends State<ImageSticker>
+    with TickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  );
+  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+    begin: const Offset(0.0, 1.5),
+    end: Offset.zero,
+  ).animate(CurvedAnimation(
+    parent: _controller,
+    curve: Curves.easeInOut,
+  ));
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   bool isTextEditVisible = false;
   TextEditingController textCtrl = TextEditingController();
+  Color textColor = Colors.white;
   List<Widget> stickers = [
     Image(
       image: NetworkImage(
@@ -79,46 +94,105 @@ class _ImageStickerState extends State<ImageSticker> {
                     IconButton(
                       icon: Icon(Icons.text_fields, color: Colors.white),
                       onPressed: () {
-                        isTextEditVisible = !isTextEditVisible;
-                        setState(() {});
+                        if (_controller.isCompleted) {
+                          _controller.reverse();
+                          setState(() {});
+                        } else {
+                          _controller.forward();
+                          setState(() {});
+                        }
                       },
                     ),
                   ],
                 ),
               ),
             ),
-            Visibility(
-              visible: isTextEditVisible,
-              child: Container(
-                height: kToolbarHeight,
-                margin: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    color: Colors.pink,
-                    borderRadius: BorderRadius.circular(30)),
-                child: Stack(
-                  alignment: Alignment.centerRight,
-                  children: [
-                    TextFormField(
-                      controller: textCtrl,
-                      autofocus: true,
-                      maxLength: 30,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.only(left: 15, top: 4, right: 15),
+            SlideTransition(
+              position: _offsetAnimation,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          textColor = Colors.blue;
+                          setState(() {});
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(8),
+                          height: 24,
+                          width: 24,
+                          decoration: BoxDecoration(
+                              color: Colors.blue, shape: BoxShape.circle),
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.add, color: Colors.white),
-                      onPressed: () {
-                        stickers.add(Text(textCtrl.text));
+                      InkWell(
+                        onTap: () {
+                          textColor = Colors.yellow;
+                          setState(() {});
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(8),
+                          height: 24,
+                          width: 24,
+                          decoration: BoxDecoration(
+                              color: Colors.yellow, shape: BoxShape.circle),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          textColor = Colors.white;
+                          setState(() {});
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(8),
+                          height: 24,
+                          width: 24,
+                          decoration: BoxDecoration(
+                              color: Colors.white, shape: BoxShape.circle),
+                        ),
+                      )
+                    ],
+                  ),
+                  Container(
+                    height: kToolbarHeight,
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: Colors.pink,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Stack(
+                      alignment: Alignment.centerRight,
+                      children: [
+                        TextFormField(
+                          controller: textCtrl,
+                          autofocus: true,
+                          maxLength: 30,
+                          style: TextStyle(color: textColor),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding:
+                                EdgeInsets.only(left: 15, top: 4, right: 15),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.add, color: Colors.white),
+                          onPressed: () {
+                            if (textCtrl.text.isNotEmpty) {
+                              stickers.add(Text(
+                                textCtrl.text,
+                                style: TextStyle(color: textColor),
+                              ));
+                              textCtrl.clear();
 
-                        setState(() {});
-                      },
+                              setState(() {});
+                            }
+                          },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )
           ],
@@ -154,6 +228,7 @@ class _StickerState extends State<Sticker> {
   double initialAngle = 0.0;
   double finalAngle = 0;
   bool isStickerVisible = true;
+  double ballDiameter = 24.0;
   // double scaleFactor = 1.0;
 
   @override
@@ -170,6 +245,7 @@ class _StickerState extends State<Sticker> {
           height: currHeight ?? initHeight,
           width: currWidth ?? initWidth,
           child: Stack(
+            clipBehavior: Clip.none,
             children: [
               GestureDetector(
                 onTap: () {
@@ -179,7 +255,7 @@ class _StickerState extends State<Sticker> {
                 child: Container(
                   height: currHeight ?? initHeight,
                   width: currWidth ?? initWidth,
-                  margin: EdgeInsets.all(8),
+                  margin: EdgeInsets.all(12),
                   decoration: BoxDecoration(
                       border: isVisible
                           ? Border.all(color: Colors.pink, width: 2)
@@ -197,16 +273,16 @@ class _StickerState extends State<Sticker> {
               if (isVisible)
                 GestureDetector(
                   onPanStart: (details) {
-                    x0 = details.globalPosition.dx - initWidth + 10;
-                    y0 = details.globalPosition.dy - initHeight - 12;
+                    x0 = details.globalPosition.dx - initWidth + 13;
+                    y0 = details.globalPosition.dy - initHeight + 13;
                     setState(() {});
                   },
                   onPanUpdate: (details) {
                     if (details.globalPosition.dx > x0 + 50) {
-                      currWidth = details.globalPosition.dx + 10 - x0;
+                      currWidth = details.globalPosition.dx + 13 - x0;
                     }
                     if (details.globalPosition.dy > y0 + 50) {
-                      currHeight = details.globalPosition.dy - 12 - y0;
+                      currHeight = details.globalPosition.dy + 13 - y0;
                     }
                     setState(() {});
                   },
@@ -216,12 +292,15 @@ class _StickerState extends State<Sticker> {
                     setState(() {});
                   },
                   child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.pink, shape: BoxShape.circle),
-                          child: Icon(Icons.fullscreen_exit,
-                              color: Colors.white))),
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                        height: ballDiameter,
+                        width: ballDiameter,
+                        decoration: BoxDecoration(
+                            color: Colors.pink, shape: BoxShape.circle),
+                        child: Icon(Icons.fullscreen_exit,
+                            size: ballDiameter, color: Colors.white)),
+                  ),
                 ),
               //MOVE
               if (isVisible)
@@ -236,15 +315,15 @@ class _StickerState extends State<Sticker> {
 
                     setState(() {});
                   },
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.pink, shape: BoxShape.circle),
-                      child: Icon(
-                        Icons.drag_indicator_rounded,
-                        color: Colors.white,
-                      ),
+                  child: Container(
+                    height: ballDiameter,
+                    width: ballDiameter,
+                    decoration: BoxDecoration(
+                        color: Colors.pink, shape: BoxShape.circle),
+                    child: Icon(
+                      Icons.drag_indicator_rounded,
+                      size: ballDiameter,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -258,11 +337,14 @@ class _StickerState extends State<Sticker> {
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: Container(
+                      height: ballDiameter,
+                      width: ballDiameter,
                       decoration: BoxDecoration(
                           color: Colors.pink, shape: BoxShape.circle),
                       child: Icon(
                         Icons.close,
                         color: Colors.white,
+                        size: ballDiameter,
                       ),
                     ),
                   ),
@@ -307,10 +389,13 @@ class _StickerState extends State<Sticker> {
                     child: Align(
                       alignment: Alignment.topRight,
                       child: Container(
+                        height: ballDiameter,
+                        width: ballDiameter,
                         decoration: BoxDecoration(
                             color: Colors.pink, shape: BoxShape.circle),
                         child: Icon(
                           Icons.rotate_right_rounded,
+                          size: ballDiameter,
                           color: Colors.white,
                         ),
                       ),
