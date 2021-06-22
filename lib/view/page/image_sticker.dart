@@ -49,85 +49,92 @@ class _ImageStickerState extends State<ImageSticker>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: KeyboardHider(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            SizedBox.expand(
-              child: InteractiveViewer(
-                child: const Image(
-                  image: NetworkImage(
-                      'https://i.pinimg.com/originals/2e/f5/38/2ef538b144db555f8dcd4bbc34c17e84.jpg'),
-                  fit: BoxFit.cover,
+    return Scaffold(
+      body: SafeArea(
+        child: KeyboardHider(
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              SizedBox.expand(
+                child: InteractiveViewer(
+                  child: const Image(
+                    image: NetworkImage(
+                        'https://i.pinimg.com/originals/2e/f5/38/2ef538b144db555f8dcd4bbc34c17e84.jpg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            Stack(
-              children: List.generate(stickers.length, (index) {
-                Widget sticker = stickers[index];
-                return Sticker(
-                  index: index,
-                  child: sticker,
-                );
-              }),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                margin: EdgeInsets.all(8),
-                width: kToolbarHeight,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.black.withOpacity(.3),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.emoji_emotions_outlined,
-                          color: Colors.white),
-                      onPressed: () {
-                        _controller.reverse();
+              Stack(
+                children: List.generate(stickers.length, (index) {
+                  Widget sticker = stickers[index];
+                  return Sticker(
+                    index: index,
+                    child: sticker,
+                  );
+                }),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  margin: EdgeInsets.all(8),
+                  width: kToolbarHeight,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.black.withOpacity(.3),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.emoji_emotions_outlined,
+                            color: Colors.white),
+                        onPressed: () {
+                          _controller.reverse();
 
-                        setState(() {});
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.text_fields, color: Colors.white),
-                      onPressed: () {
-                        _controller.forward();
+                          setState(() {});
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.text_fields, color: Colors.white),
+                        onPressed: () {
+                          _controller.forward();
 
-                        setState(() {});
-                      },
-                    ),
-                  ],
+                          setState(() {});
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            StickerInput(
-              animation: _offsetAnimation1,
-              textController: textCtrl,
-              stickers: ['asset/svg/avatar.svg', 'asset/svg/baby.svg'],
-              onTap: (path) {
-                stickers.add(SvgPicture.asset(path));
-                setState(() {});
-              },
-            ),
-            TextInput(
-              animation: _offsetAnimation2,
-              textController: textCtrl,
-              colors: [Colors.white, Colors.blue, Colors.yellow, Colors.green],
-              onTap: (color) {
-                stickers.add(Text(
-                  textCtrl.text,
-                  style: TextStyle(color: color),
-                ));
-                textCtrl.clear();
-                setState(() {});
-              },
-            )
-          ],
+              StickerInput(
+                animation: _offsetAnimation1,
+                textController: textCtrl,
+                stickers: ['asset/svg/avatar.svg', 'asset/svg/baby.svg'],
+                onTap: (path) {
+                  stickers.add(SvgPicture.asset(path));
+                  setState(() {});
+                },
+              ),
+              TextInput(
+                animation: _offsetAnimation2,
+                textController: textCtrl,
+                colors: [
+                  Colors.white,
+                  Colors.blue,
+                  Colors.yellow,
+                  Colors.green
+                ],
+                onTap: (color) {
+                  stickers.add(Text(
+                    textCtrl.text,
+                    style: TextStyle(color: color),
+                  ));
+                  textCtrl.clear();
+                  setState(() {});
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -346,17 +353,17 @@ class _StickerState extends State<Sticker> {
               //SCALE
               if (isVisible)
                 GestureDetector(
-                  onPanStart: (details) {
-                    x0 = details.globalPosition.dx - initWidth + 13;
-                    y0 = details.globalPosition.dy - initHeight + 13;
-                    setState(() {});
-                  },
+                  // onPanStart: (details) {
+                  //   x0 = details.globalPosition.dx - initWidth + 13;
+                  //   y0 = details.globalPosition.dy - initHeight + 13;
+                  //   setState(() {});
+                  // },
                   onPanUpdate: (details) {
                     if (details.globalPosition.dx > x0 + 50) {
-                      currWidth = details.globalPosition.dx + 13 - x0;
+                      currWidth = details.globalPosition.dx - x0;
                     }
                     if (details.globalPosition.dy > y0 + 50) {
-                      currHeight = details.globalPosition.dy + 13 - y0;
+                      currHeight = details.globalPosition.dy - y0;
                     }
                     setState(() {});
                   },
@@ -367,13 +374,15 @@ class _StickerState extends State<Sticker> {
                   },
                   child: Align(
                     alignment: Alignment.bottomRight,
-                    child: Container(
-                        height: ballDiameter,
-                        width: ballDiameter,
-                        decoration: BoxDecoration(
-                            color: Colors.pink, shape: BoxShape.circle),
-                        child: Icon(Icons.fullscreen_exit,
-                            size: ballDiameter, color: Colors.white)),
+                    child: AbsorbPointer(
+                      child: Container(
+                          height: ballDiameter,
+                          width: ballDiameter,
+                          decoration: BoxDecoration(
+                              color: Colors.pink, shape: BoxShape.circle),
+                          child: Icon(Icons.fullscreen_exit,
+                              size: ballDiameter, color: Colors.white)),
+                    ),
                   ),
                 ),
               //MOVE
