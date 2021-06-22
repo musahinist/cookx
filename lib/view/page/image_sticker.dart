@@ -1,8 +1,9 @@
 import 'dart:math';
 
-import 'package:cookx/view/widget/keyboard_hider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:cookx/view/widget/keyboard_hider_widget.dart';
 
 class ImageSticker extends StatefulWidget {
   const ImageSticker({Key? key}) : super(key: key);
@@ -14,17 +15,27 @@ class ImageSticker extends StatefulWidget {
 class _ImageStickerState extends State<ImageSticker>
     with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 1),
+    duration: const Duration(milliseconds: 500),
     vsync: this,
   );
-  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+  late final Animation<Offset> _offsetAnimation1 = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(0.0, 1.5),
+  ).animate(
+    CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ),
+  );
+  late final Animation<Offset> _offsetAnimation2 = Tween<Offset>(
     begin: const Offset(0.0, 1.5),
     end: Offset.zero,
-  ).animate(CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeInOut,
-  ));
-
+  ).animate(
+    CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ),
+  );
   @override
   void dispose() {
     super.dispose();
@@ -33,17 +44,8 @@ class _ImageStickerState extends State<ImageSticker>
 
   bool isTextEditVisible = false;
   TextEditingController textCtrl = TextEditingController();
-  Color textColor = Colors.white;
-  List<Widget> stickers = [
-    Image(
-      image: NetworkImage(
-          "https://www.baskiyap.com/image/catalog/product/Sticker/karpuz-dilim.png"),
-    ),
-    Text(
-      "sdfsdfsdfsdfsdfsdfsdfddf",
-      style: TextStyle(color: Colors.white),
-    )
-  ];
+
+  List<Widget> stickers = [];
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +56,9 @@ class _ImageStickerState extends State<ImageSticker>
           children: [
             SizedBox.expand(
               child: InteractiveViewer(
-                child: Image(
+                child: const Image(
                   image: NetworkImage(
-                      "https://i.pinimg.com/originals/2e/f5/38/2ef538b144db555f8dcd4bbc34c17e84.jpg"),
+                      'https://i.pinimg.com/originals/2e/f5/38/2ef538b144db555f8dcd4bbc34c17e84.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -86,7 +88,7 @@ class _ImageStickerState extends State<ImageSticker>
                       icon: Icon(Icons.emoji_emotions_outlined,
                           color: Colors.white),
                       onPressed: () {
-                        stickers.add(SvgPicture.asset("asset/svg/avatar.svg"));
+                        _controller.reverse();
 
                         setState(() {});
                       },
@@ -94,109 +96,181 @@ class _ImageStickerState extends State<ImageSticker>
                     IconButton(
                       icon: Icon(Icons.text_fields, color: Colors.white),
                       onPressed: () {
-                        if (_controller.isCompleted) {
-                          _controller.reverse();
-                          setState(() {});
-                        } else {
-                          _controller.forward();
-                          setState(() {});
-                        }
+                        _controller.forward();
+
+                        setState(() {});
                       },
                     ),
                   ],
                 ),
               ),
             ),
-            SlideTransition(
-              position: _offsetAnimation,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          textColor = Colors.blue;
-                          setState(() {});
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(8),
-                          height: 24,
-                          width: 24,
-                          decoration: BoxDecoration(
-                              color: Colors.blue, shape: BoxShape.circle),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          textColor = Colors.yellow;
-                          setState(() {});
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(8),
-                          height: 24,
-                          width: 24,
-                          decoration: BoxDecoration(
-                              color: Colors.yellow, shape: BoxShape.circle),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          textColor = Colors.white;
-                          setState(() {});
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(8),
-                          height: 24,
-                          width: 24,
-                          decoration: BoxDecoration(
-                              color: Colors.white, shape: BoxShape.circle),
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    height: kToolbarHeight,
-                    margin: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        color: Colors.pink,
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Stack(
-                      alignment: Alignment.centerRight,
-                      children: [
-                        TextFormField(
-                          controller: textCtrl,
-                          autofocus: true,
-                          maxLength: 30,
-                          style: TextStyle(color: textColor),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding:
-                                EdgeInsets.only(left: 15, top: 4, right: 15),
-                          ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.add, color: Colors.white),
-                          onPressed: () {
-                            if (textCtrl.text.isNotEmpty) {
-                              stickers.add(Text(
-                                textCtrl.text,
-                                style: TextStyle(color: textColor),
-                              ));
-                              textCtrl.clear();
-
-                              setState(() {});
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            StickerInput(
+              animation: _offsetAnimation1,
+              textController: textCtrl,
+              stickers: ['asset/svg/avatar.svg', 'asset/svg/baby.svg'],
+              onTap: (path) {
+                stickers.add(SvgPicture.asset(path));
+                setState(() {});
+              },
+            ),
+            TextInput(
+              animation: _offsetAnimation2,
+              textController: textCtrl,
+              colors: [Colors.white, Colors.blue, Colors.yellow, Colors.green],
+              onTap: (color) {
+                stickers.add(Text(
+                  textCtrl.text,
+                  style: TextStyle(color: color),
+                ));
+                textCtrl.clear();
+                setState(() {});
+              },
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class StickerInput extends StatefulWidget {
+  final Animation<Offset> animation;
+  final ValueSetter onTap;
+  final List<String> stickers;
+  final TextEditingController textController;
+  const StickerInput({
+    Key? key,
+    required this.animation,
+    required this.onTap,
+    required this.stickers,
+    required this.textController,
+  }) : super(key: key);
+
+  @override
+  _StickerInputState createState() => _StickerInputState();
+}
+
+class _StickerInputState extends State<StickerInput> {
+  Color textColor = Colors.white;
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: widget.animation,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: kToolbarHeight,
+            margin: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                color: Colors.pink, borderRadius: BorderRadius.circular(30)),
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                ...List.generate(widget.stickers.length, (index) {
+                  final String sticker = widget.stickers[index];
+                  return InkWell(
+                    onTap: () {
+                      widget.onTap(sticker);
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      margin: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: SvgPicture.asset(sticker),
+                    ),
+                  );
+                })
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TextInput extends StatefulWidget {
+  final Animation<Offset> animation;
+  final ValueSetter onTap;
+  final List<Color> colors;
+  final TextEditingController textController;
+  const TextInput({
+    Key? key,
+    required this.animation,
+    required this.onTap,
+    required this.colors,
+    required this.textController,
+  }) : super(key: key);
+
+  @override
+  _TextInputState createState() => _TextInputState();
+}
+
+class _TextInputState extends State<TextInput> {
+  Color textColor = Colors.white;
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: widget.animation,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              ...List.generate(widget.colors.length, (index) {
+                final Color color = widget.colors[index];
+                return InkWell(
+                  onTap: () {
+                    textColor = color;
+                    setState(() {});
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    height: 24,
+                    width: 24,
+                    decoration:
+                        BoxDecoration(color: color, shape: BoxShape.circle),
+                  ),
+                );
+              })
+            ],
+          ),
+          Container(
+            height: kToolbarHeight,
+            margin: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                color: Colors.pink, borderRadius: BorderRadius.circular(30)),
+            child: Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                TextFormField(
+                  controller: widget.textController,
+                  //  autofocus: true,
+                  maxLength: 30,
+                  style: TextStyle(color: textColor),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.only(left: 15, top: 4, right: 15),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.add, color: Colors.white),
+                  onPressed: () {
+                    if (widget.textController.text.isNotEmpty) {
+                      widget.onTap(textColor);
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
