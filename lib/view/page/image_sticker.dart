@@ -5,6 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:cookx/view/widget/keyboard_hider_widget.dart';
 
+import 'color_picker.dart';
+
 class ImageSticker extends StatefulWidget {
   const ImageSticker({Key? key}) : super(key: key);
 
@@ -227,26 +229,36 @@ class _TextInputState extends State<TextInput> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            children: [
-              ...List.generate(widget.colors.length, (index) {
-                final Color color = widget.colors[index];
-                return InkWell(
-                  onTap: () {
-                    textColor = color;
-                    setState(() {});
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(8),
-                    height: 24,
-                    width: 24,
-                    decoration:
-                        BoxDecoration(color: color, shape: BoxShape.circle),
-                  ),
-                );
-              })
-            ],
+          Expanded(
+            child: FastColorPicker(
+              selectedColor: textColor,
+              onColorSelected: (color) {
+                setState(() {
+                  textColor = color;
+                });
+              },
+            ),
           ),
+          // Row(
+          //   children: [
+          //     ...List.generate(widget.colors.length, (index) {
+          //       final Color color = widget.colors[index];
+          //       return InkWell(
+          //         onTap: () {
+          //           textColor = color;
+          //           setState(() {});
+          //         },
+          //         child: Container(
+          //           margin: EdgeInsets.all(8),
+          //           height: 24,
+          //           width: 24,
+          //           decoration:
+          //               BoxDecoration(color: color, shape: BoxShape.circle),
+          //         ),
+          //       );
+          //     })
+          //   ],
+          // ),
           Container(
             height: kToolbarHeight,
             margin: EdgeInsets.all(8),
